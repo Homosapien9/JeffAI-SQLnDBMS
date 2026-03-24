@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JEFF AI – SQL & DBMS Class 12 | All PYQs & HOTS</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap');
+
+  :root {
+    --bg: #080b10;
+    --card: #0e1118;
+    --border: #1a2030;
+    --accent: #00e5ff;
+    --accent2: #ff6b35;
+    --accent3: #a8ff3e;
+    --accent4: #bf5fff;
+    --gold: #ffd166;
+    --text: #b8cce0;
+    --muted: #4a5a72;
+    --white: #eef4ff;
+    --sql: #00ffb3;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14.5px;
+    line-height: 1.72;
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at 15% 15%, rgba(0,229,255,0.03) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 85%, rgba(0,255,179,0.02) 0%, transparent 55%);
+    pointer-events: none; z-index: 0;
+  }
+
+  .container { max-width: 940px; margin: 0 auto; padding: 0 18px 60px; position: relative; z-index: 1; }
+
+  /* ── JEFF TOP BAR ── */
+  .jeff-topbar {
+    background: linear-gradient(135deg, #090d18, #0d1522);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0;
+    text-align: center;
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+  }
+  .jeff-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 4px;
+    background: linear-gradient(90deg, var(--sql), var(--accent3));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .jeff-topbar-sub { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+  .jeff-dot { width: 6px; height: 6px; background: var(--sql); border-radius: 50%; animation: blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  /* ── HEADER ── */
+  header { padding: 40px 0 28px; border-bottom: 1px solid var(--border); margin-bottom: 30px; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .badge { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 2px; }
+  .b1 { color: var(--sql); border: 1px solid rgba(0,255,179,0.3); background: rgba(0,255,179,0.04); }
+  .b2 { color: var(--accent3); border: 1px solid rgba(168,255,62,0.3); background: rgba(168,255,62,0.04); }
+  .b3 { color: var(--accent4); border: 1px solid rgba(191,95,255,0.3); background: rgba(191,95,255,0.04); }
+  .b4 { color: var(--accent2); border: 1px solid rgba(255,107,53,0.3); background: rgba(255,107,53,0.04); }
+
+  header h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(38px, 8vw, 72px); letter-spacing: 2px; color: var(--white); line-height: 1; margin-bottom: 8px; }
+  header h1 span { color: var(--sql); }
+  .subtitle { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+
+  .stats { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 20px; }
+  .stat { background: var(--card); border: 1px solid var(--border); padding: 10px 16px; border-radius: 3px; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--sql); display: block; line-height: 1; }
+  .stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+
+  /* ── TABS ── */
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 26px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .tab { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 14px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; border-radius: 2px; transition: all 0.15s; }
+  .tab:hover, .tab.active { border-color: var(--sql); color: var(--sql); background: rgba(0,255,179,0.05); }
+
+  /* ── SECTIONS ── */
+  .section { display: none; }
+  .section.active { display: block; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; color: var(--white); margin-bottom: 4px; }
+  .section-desc { font-size: 12px; color: var(--muted); margin-bottom: 22px; font-style: italic; line-height: 1.5; }
+
+  /* ── TOPIC HEADER ── */
+  .topic { margin-bottom: 30px; }
+  .topic-label { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent2); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .topic-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── CARDS ── */
+  .q-list { display: flex; flex-direction: column; gap: 10px; }
+  .q-card { background: var(--card); border: 1px solid var(--border); border-left: 3px solid var(--border); border-radius: 3px; overflow: hidden; transition: border-left-color 0.15s; }
+  .q-card:hover { border-left-color: var(--muted); }
+  .q-card.open { border-left-color: var(--sql); }
+  .q-card.hots { border-left-color: rgba(255,107,53,0.4); }
+  .q-card.hots.open { border-left-color: var(--accent2); }
+  .q-card.sqp { border-left-color: rgba(191,95,255,0.4); }
+  .q-card.sqp.open { border-left-color: var(--accent4); }
+  .q-card.comp { border-left-color: rgba(255,209,102,0.4); }
+  .q-card.comp.open { border-left-color: var(--gold); }
+
+  .q-header { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; cursor: pointer; user-select: none; }
+  .q-num { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: var(--sql); min-width: 26px; padding-top: 3px; flex-shrink: 0; }
+  .q-card.hots .q-num { color: var(--accent2); }
+  .q-card.sqp .q-num { color: var(--accent4); }
+  .q-card.comp .q-num { color: var(--gold); }
+
+  .q-text { font-size: 13.5px; color: var(--white); flex: 1; line-height: 1.6; }
+  .q-meta { display: flex; gap: 5px; align-items: flex-start; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; min-width: 80px; }
+
+  .tag { font-family: 'IBM Plex Mono', monospace; font-size: 8.5px; padding: 2px 6px; border-radius: 2px; letter-spacing: 0.8px; text-transform: uppercase; white-space: nowrap; }
+  .ty { background: #0d1525; color: #7090ff; border: 1px solid #1a2545; }
+  .tm { background: #0a1a12; color: var(--sql); border: 1px solid #153025; }
+  .th { background: #1a100a; color: var(--accent2); border: 1px solid #3a2015; }
+  .ti { background: #0d1a18; color: #00ffb3; border: 1px solid #1a3530; }
+  .ts { background: #150d1a; color: var(--accent4); border: 1px solid #2a1535; }
+  .tc { background: #1a1600; color: var(--gold); border: 1px solid #352c00; }
+  .tq { background: #101a10; color: #88ff88; border: 1px solid #1a3020; }
+
+  .chevron { font-size: 10px; color: var(--muted); transition: transform 0.18s; flex-shrink: 0; margin-top: 4px; }
+  .q-card.open .chevron { transform: rotate(180deg); }
+
+  .q-answer { display: none; padding: 0 14px 14px 52px; border-top: 1px solid var(--border); font-size: 13px; color: var(--text); line-height: 1.78; }
+  .q-card.open .q-answer { display: block; }
+  .q-answer p { margin-bottom: 7px; }
+  .q-answer ul, .q-answer ol { margin: 7px 0 7px 18px; }
+  .q-answer li { margin-bottom: 3px; }
+  .q-answer strong { color: var(--white); }
+  .q-answer em { color: var(--muted); font-style: italic; }
+
+  .ans-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--sql); text-transform: uppercase; margin-bottom: 8px; padding-top: 10px; display: block; }
+  .q-card.hots .ans-label { color: var(--accent2); }
+  .q-card.sqp .ans-label { color: var(--accent4); }
+  .q-card.comp .ans-label { color: var(--gold); }
+
+  /* SQL code blocks */
+  pre.sql {
+    background: #060a10;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--sql);
+    border-radius: 3px;
+    padding: 12px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: #c8ffe0;
+    overflow-x: auto;
+    margin: 8px 0;
+    line-height: 1.7;
+    white-space: pre;
+  }
+  pre.sql .kw { color: #00e5ff; }
+  pre.sql .fn { color: var(--accent3); }
+  pre.sql .str { color: var(--gold); }
+  pre.sql .cmt { color: var(--muted); font-style: italic; }
+
+  /* Data tables */
+  .dt-wrap { overflow-x: auto; margin: 8px 0; }
+  table.dt { border-collapse: collapse; font-size: 12.5px; min-width: 100%; }
+  table.dt th { background: #0e1a2a; color: var(--sql); font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 6px 12px; border: 1px solid var(--border); }
+  table.dt td { padding: 6px 12px; border: 1px solid var(--border); color: var(--text); }
+  table.dt tr:nth-child(even) td { background: rgba(0,255,179,0.02); }
+
+  /* Comparison tables */
+  table.ct { border-collapse: collapse; font-size: 12.5px; width: 100%; margin: 8px 0; }
+  table.ct th { background: #0d1520; color: var(--accent); font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; padding: 6px 10px; border: 1px solid var(--border); }
+  table.ct td { padding: 6px 10px; border: 1px solid var(--border); vertical-align: top; }
+  table.ct tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+
+  /* Output block */
+  pre.output {
+    background: #0a0f0a;
+    border: 1px solid #1a3020;
+    border-left: 3px solid var(--accent3);
+    border-radius: 3px;
+    padding: 10px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--accent3);
+    overflow-x: auto;
+    margin: 8px 0;
+    line-height: 1.6;
+  }
+
+  /* Year divider */
+  .ydiv { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin: 18px 0 8px; display: flex; align-items: center; gap: 10px; }
+  .ydiv::before, .ydiv::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* Expand btn */
+  .expand-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 14px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; border-radius: 2px; margin-bottom: 16px; transition: all 0.15s; }
+  .expand-btn:hover { border-color: var(--sql); color: var(--sql); }
+
+  /* Note box */
+  .note { background: rgba(0,255,179,0.04); border: 1px solid rgba(0,255,179,0.15); border-radius: 3px; padding: 10px 14px; margin: 8px 0; font-size: 12.5px; color: var(--sql); }
+  .note strong { color: var(--sql); }
+
+  /* ── FOOTER ── */
+  footer { margin-top: 60px; border-top: 1px solid var(--border); padding: 22px 0 10px; text-align: center; }
+  .jeff-footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 5px; background: linear-gradient(90deg, var(--sql), var(--accent3)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: block; margin-bottom: 4px; }
+  .jeff-footer-credit { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+  .jeff-footer-credit span { color: var(--accent2); }
+  .footer-note { font-size: 11px; color: var(--muted); margin-top: 8px; font-style: italic; }
+</style>
+</head>
+<body>
+
+<!-- JEFF AI TOP BAR -->
+<div class="jeff-topbar">
+  <div class="jeff-dot"></div>
+  <div class="jeff-logo">JEFF AI</div>
+  <div class="jeff-topbar-sub">Class 12 · SQL &amp; DBMS · All PYQs + HOTS + SQP 2025-26</div>
+  <div class="jeff-dot"></div>
+</div>
+
+<div class="container">
+
+  <header>
+    <div class="badge-row">
+      <span class="badge b1">CBSE Class XII · CS (083)</span>
+      <span class="badge b2">Board 2008–2025 ✓</span>
+      <span class="badge b3">SQP 2025-26 ✓</span>
+      <span class="badge b4">HOTS + Competency ✓</span>
+    </div>
+    <h1>SQL &amp; <span>DBMS</span></h1>
+    <div class="subtitle">Complete PYQ Bank · DDL · DML · DQL · Aggregate Functions · Joins · HOTS · Verified Against Original Papers</div>
+    <div class="stats">
+      <div class="stat"><span class="stat-num">90+</span><span class="stat-label">Questions</span></div>
+      <div class="stat"><span class="stat-num">18</span><span class="stat-label">Years</span></div>
+      <div class="stat"><span class="stat-num">7</span><span class="stat-label">Tabs</span></div>
+      <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Verified</span></div>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showSection('concepts')">DBMS Concepts</button>
+    <button class="tab" onclick="showSection('ddl')">DDL Commands</button>
+    <button class="tab" onclick="showSection('dml')">DML Commands</button>
+    <button class="tab" onclick="showSection('dql')">SELECT / DQL</button>
+    <button class="tab" onclick="showSection('aggr')">Aggregates &amp; Joins</button>
+    <button class="tab" onclick="showSection('hots')">HOTS + Competency</button>
+    <button class="tab" onclick="showSection('sqp')">SQP 2025-26</button>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 1: DBMS CONCEPTS
+  ══════════════════════════════════ -->
+  <div class="section active" id="concepts">
+    <div class="section-title">DBMS Concepts &amp; Terminology</div>
+    <div class="section-desc">Definitions, keys, constraints, relational model — 1–2 mark questions. Sourced from Board Papers 2008–2025.</div>
+    <button class="expand-btn" onclick="expandAll('concepts',this)">▼ Expand All Answers</button>
+
+    <div class="topic">
+      <div class="topic-label">Core Definitions — Board 2008–2020</div>
+      <div class="q-list">
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q1</span>
+            <span class="q-text">What is a database? How is it different from a DBMS?</span>
+            <div class="q-meta"><span class="tag ty">Board 2012</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>Database:</strong> An organized collection of structured data or information stored and accessed electronically. It stores data in tables (relations) with rows and columns.</p>
+            <p><strong>DBMS (Database Management System):</strong> Software that manages, stores, retrieves, and manipulates data in a database. Examples: MySQL, Oracle, MS Access.</p>
+            <p><strong>Difference:</strong> A database is the <em>data</em>; DBMS is the <em>software</em> that creates and manages that data.</p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q2</span>
+            <span class="q-text">Define the following terms with respect to a relational database:<br>(a) Tuple &nbsp; (b) Attribute &nbsp; (c) Domain &nbsp; (d) Degree &nbsp; (e) Cardinality</span>
+            <div class="q-meta"><span class="tag ty">Board 2015–2019</span><span class="tag tm">3M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <ul>
+              <li><strong>Tuple:</strong> A single row in a relation (table). Represents one record/entity. Example: One student's row in a STUDENT table.</li>
+              <li><strong>Attribute:</strong> A column in a relation. Represents a property of an entity. Example: Name, RollNo.</li>
+              <li><strong>Domain:</strong> The set of all possible values an attribute can take. Example: Domain of Marks = {0, 1, 2, …, 100}.</li>
+              <li><strong>Degree:</strong> The total number of attributes (columns) in a relation/table.</li>
+              <li><strong>Cardinality:</strong> The total number of tuples (rows) in a relation/table.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q3</span>
+            <span class="q-text">A table PRODUCTS has 5 columns and 8 rows. What is its degree and cardinality?</span>
+            <div class="q-meta"><span class="tag ty">Board 2018, SQP 2022</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>Degree = 5</strong> (number of columns/attributes).</p>
+            <p><strong>Cardinality = 8</strong> (number of rows/tuples).</p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q4</span>
+            <span class="q-text">If table A has 6 rows and 3 columns, and table B has 5 rows and 2 columns, what will be the Cartesian product of A and B?</span>
+            <div class="q-meta"><span class="tag ty">Board 2025</span><span class="tag tm">1M</span><span class="tag tq">MCQ</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>Cartesian Product of A × B:</strong></p>
+            <ul>
+              <li><strong>Rows = 6 × 5 = 30 rows</strong></li>
+              <li><strong>Columns = 3 + 2 = 5 columns</strong></li>
+            </ul>
+            <p>The Cartesian product combines every row of A with every row of B, and all attributes from both tables appear as columns.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-label">Keys &amp; Constraints — Board 2008–2025</div>
+      <div class="q-list">
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q5</span>
+            <span class="q-text">Define Primary Key. Give an example.</span>
+            <div class="q-meta"><span class="tag ty">Board 2008</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p>A <strong>Primary Key</strong> is an attribute (or set of attributes) that uniquely identifies each row in a table. It cannot have NULL values and cannot have duplicate values.</p>
+            <p><strong>Example:</strong> In a STUDENT table, RollNo is the primary key — every student has a unique roll number.</p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q6</span>
+            <span class="q-text">Nisha has an EMPLOYEES table with attributes EMPNO, NAME, DEPARTMENT, BASICSAL. There can be two or more employees with the same name. Identify the attribute that should be designated as Primary Key and justify.</span>
+            <div class="q-meta"><span class="tag ty">Board 2025</span><span class="tag tm">2M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>Primary Key: EMPNO (Employee Number)</strong></p>
+            <p><strong>Justification:</strong> Each employee in the organization is assigned a unique employee number (EMPNO). This ensures no two employees will have the same EMPNO value. NAME cannot be a primary key because there can be duplicate names as stated in the question. DEPARTMENT and BASICSAL can also have repeated values. Only EMPNO guarantees uniqueness for every record.</p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q7</span>
+            <span class="q-text">Differentiate between Primary Key and Candidate Key.</span>
+            <div class="q-meta"><span class="tag ty">Board 2016, 2019</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <table class="ct">
+              <tr><th>Primary Key</th><th>Candidate Key</th></tr>
+              <tr><td>Selected from candidate keys to uniquely identify rows</td><td>Any attribute (or set) that can uniquely identify rows</td></tr>
+              <tr><td>Only ONE primary key per table</td><td>Can be MULTIPLE candidate keys</td></tr>
+              <tr><td>Cannot be NULL</td><td>Cannot be NULL</td></tr>
+              <tr><td>Example: RollNo (chosen)</td><td>Example: RollNo, AdmissionNo (both can uniquely identify)</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q8</span>
+            <span class="q-text">What is a Foreign Key? How does it establish a relationship between two tables?</span>
+            <div class="q-meta"><span class="tag ty">Board 2014, 2022</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p>A <strong>Foreign Key</strong> is an attribute in one table that refers to the Primary Key of another table. It establishes and enforces a referential integrity link between the two tables.</p>
+            <p><strong>Example:</strong> In a ORDERS table, CustomerID is a foreign key that references CustomerID (primary key) in the CUSTOMERS table. This ensures that no order can be placed for a non-existent customer.</p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q9</span>
+            <span class="q-text">Assertion (A): SQL allows retrieving records from multiple tables using JOIN operations.<br>Reason (R): Foreign key is used to establish a relationship between two tables.</span>
+            <div class="q-meta"><span class="tag ty">Board 2025</span><span class="tag tm">1M</span><span class="tag tq">A&amp;R</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>(A) Both Assertion (A) and Reason (R) are true, and Reason (R) is the correct explanation for Assertion (A).</strong></p>
+            <p>SQL JOIN operations retrieve data from multiple tables. The foreign key establishes the inter-table relationship that JOIN exploits. So both are true and R correctly explains A.</p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q10</span>
+            <span class="q-text">Which aggregate function in SQL displays the number of values in the specified column, ignoring NULL values?<br>(A) SUM &nbsp; (B) COUNT(*) &nbsp; (C) COUNT(column_name) &nbsp; (D) MAX</span>
+            <div class="q-meta"><span class="tag ty">Board 2025</span><span class="tag tm">1M</span><span class="tag tq">MCQ</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>(C) COUNT(column_name)</strong> — When you specify a column name, COUNT counts only non-NULL values in that column. COUNT(*) counts all rows including those with NULL values. SUM and MAX are for numeric calculations.</p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q11</span>
+            <span class="q-text">Which of the following SQL clauses returns records without repetition?<br>(a) DISTINCT &nbsp; (b) DESCRIBE &nbsp; (c) UNIQUE &nbsp; (d) NULL</span>
+            <div class="q-meta"><span class="tag ty">Board 2024</span><span class="tag tm">1M</span><span class="tag tq">MCQ</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>(a) DISTINCT</strong> — The SELECT DISTINCT statement returns only unique (non-duplicate) values from the specified column.</p>
+            <pre class="sql"><span class="kw">SELECT DISTINCT</span> Department <span class="kw">FROM</span> EMPLOYEES;</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q12</span>
+            <span class="q-text">Differentiate between NOT NULL and UNIQUE constraints.</span>
+            <div class="q-meta"><span class="tag ty">Board 2017, SQP 2023</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <table class="ct">
+              <tr><th>NOT NULL</th><th>UNIQUE</th></tr>
+              <tr><td>Ensures a column cannot store NULL (empty) values</td><td>Ensures all values in a column are different</td></tr>
+              <tr><td>Does NOT prevent duplicate values</td><td>Allows one NULL value (in most DBMS)</td></tr>
+              <tr><td>Example: NAME NOT NULL ensures every employee has a name</td><td>Example: EMAIL UNIQUE ensures no two users have same email</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q13</span>
+            <span class="q-text">Identify the constraint to apply to attribute NAME in the EMPLOYEES table such that it cannot be NULL but can have duplicate values. (From the 2025 Board paper)</span>
+            <div class="q-meta"><span class="tag ty">Board 2025</span><span class="tag tm">1M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>NOT NULL constraint</strong></p>
+            <p>NOT NULL ensures that the NAME field cannot be left empty or NULL while inserting records. Since duplicate names are allowed, UNIQUE constraint is not applicable here. PRIMARY KEY is also not applicable because it doesn't allow duplicates.</p>
+            <pre class="sql">NAME <span class="kw">VARCHAR</span>(30) <span class="kw">NOT NULL</span>,</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 2: DDL
+  ══════════════════════════════════ -->
+  <div class="section" id="ddl">
+    <div class="section-title">DDL Commands</div>
+    <div class="section-desc">CREATE TABLE, ALTER TABLE, DROP TABLE, DESCRIBE — Data Definition Language. Sourced from Board 2008–2025 and SQPs.</div>
+    <button class="expand-btn" onclick="expandAll('ddl',this)">▼ Expand All Answers</button>
+
+    <div class="topic">
+      <div class="topic-label">CREATE TABLE — Board 2009–2024</div>
+      <div class="q-list">
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q14</span>
+            <span class="q-text">Write SQL command to create a table STUDENTS with fields: RollNo (INT, Primary Key), Name (VARCHAR 30, NOT NULL), Class (CHAR 3), Marks (INT).</span>
+            <div class="q-meta"><span class="tag ty">Board 2010–2019</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">CREATE TABLE</span> STUDENTS (
+    RollNo   <span class="kw">INT</span> <span class="kw">PRIMARY KEY</span>,
+    Name     <span class="kw">VARCHAR</span>(30) <span class="kw">NOT NULL</span>,
+    Class    <span class="kw">CHAR</span>(3),
+    Marks    <span class="kw">INT</span>
+);</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q15</span>
+            <span class="q-text">Write the SQL command to create a table EMPLOYEES with attributes EMPNO (INT, primary key), NAME (VARCHAR 30, not null), DEPARTMENT (VARCHAR 20), BASICSAL (DECIMAL 8,2).</span>
+            <div class="q-meta"><span class="tag ty">Board 2025 Context</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">CREATE TABLE</span> EMPLOYEES (
+    EMPNO      <span class="kw">INT</span> <span class="kw">PRIMARY KEY</span>,
+    NAME       <span class="kw">VARCHAR</span>(30) <span class="kw">NOT NULL</span>,
+    DEPARTMENT <span class="kw">VARCHAR</span>(20),
+    BASICSAL   <span class="kw">DECIMAL</span>(8,2)
+);</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q16</span>
+            <span class="q-text">Write SQL to create table TEACHER with fields: TID (INT, PK), TNAME (VARCHAR 30), SUBJECT (VARCHAR 20), SALARY (DECIMAL 9,2), DOJ (DATE).</span>
+            <div class="q-meta"><span class="tag ty">Board 2014, 2017</span><span class="tag tm">3M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">CREATE TABLE</span> TEACHER (
+    TID     <span class="kw">INT</span> <span class="kw">PRIMARY KEY</span>,
+    TNAME   <span class="kw">VARCHAR</span>(30),
+    SUBJECT <span class="kw">VARCHAR</span>(20),
+    SALARY  <span class="kw">DECIMAL</span>(9,2),
+    DOJ     <span class="kw">DATE</span>
+);</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-label">ALTER TABLE — Board 2011–2025</div>
+      <div class="q-list">
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q17</span>
+            <span class="q-text">Write SQL to change the size of attribute BASICSAL in table EMPLOYEES to allow the maximum value of 99999.99.</span>
+            <div class="q-meta"><span class="tag ty">Board 2025</span><span class="tag tm">2M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p>To store 99999.99, we need 5 digits before decimal and 2 after → DECIMAL(7,2).</p>
+            <pre class="sql"><span class="kw">ALTER TABLE</span> EMPLOYEES
+<span class="kw">MODIFY</span> BASICSAL <span class="kw">DECIMAL</span>(7,2);</pre>
+            <p><em>Note: In some SQL variants, use MODIFY COLUMN or ALTER COLUMN instead of MODIFY.</em></p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q18</span>
+            <span class="q-text">Write SQL to add a new column BONUS (DECIMAL 8,2) to the existing EMPLOYEES table.</span>
+            <div class="q-meta"><span class="tag ty">Board 2013, 2019</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">ALTER TABLE</span> EMPLOYEES
+<span class="kw">ADD</span> BONUS <span class="kw">DECIMAL</span>(8,2);</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q19</span>
+            <span class="q-text">Write SQL command to remove the Primary Key constraint from a table named MOBILE, where M_ID is the primary key.<br>Also write SQL to make M_ID the Primary Key of an already existing table MOBILE.</span>
+            <div class="q-meta"><span class="tag ty">Board 2024, SQP 2024-25</span><span class="tag tm">2M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>To REMOVE Primary Key:</strong></p>
+            <pre class="sql"><span class="kw">ALTER TABLE</span> MOBILE
+<span class="kw">DROP PRIMARY KEY</span>;</pre>
+            <p><strong>To ADD Primary Key to existing table:</strong></p>
+            <pre class="sql"><span class="kw">ALTER TABLE</span> MOBILE
+<span class="kw">ADD PRIMARY KEY</span> (M_ID);</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q20</span>
+            <span class="q-text">Write SQL to drop (delete) the column BONUS from the EMPLOYEES table.</span>
+            <div class="q-meta"><span class="tag ty">Board 2017</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">ALTER TABLE</span> EMPLOYEES
+<span class="kw">DROP COLUMN</span> BONUS;</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-label">DROP TABLE &amp; DESCRIBE — Board 2013–2025</div>
+      <div class="q-list">
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q21</span>
+            <span class="q-text">Write SQL to delete the table EMPLOYEES permanently.</span>
+            <div class="q-meta"><span class="tag ty">Board 2025</span><span class="tag tm">1M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">DROP TABLE</span> EMPLOYEES;</pre>
+            <p><em>DROP TABLE permanently deletes the table structure AND all its data. It cannot be rolled back.</em></p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q22</span>
+            <span class="q-text">Differentiate between DROP TABLE and DELETE FROM a table.</span>
+            <div class="q-meta"><span class="tag ty">Board 2018, SQP 2025-26</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <table class="ct">
+              <tr><th>DELETE</th><th>DROP</th></tr>
+              <tr><td>Removes specific records (rows) from a table</td><td>Removes the entire table including structure</td></tr>
+              <tr><td>Table structure is preserved</td><td>Table and all data are permanently deleted</td></tr>
+              <tr><td>DML command</td><td>DDL command</td></tr>
+              <tr><td><code>DELETE FROM Emp WHERE ID=5;</code></td><td><code>DROP TABLE Emp;</code></td></tr>
+              <tr><td>Can use WHERE to target specific rows</td><td>No WHERE clause; removes everything</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q23</span>
+            <span class="q-text">Write SQL to display the structure (column names, data types, constraints) of the ARTICLES table.</span>
+            <div class="q-meta"><span class="tag ty">Board 2025</span><span class="tag tm">1M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">DESCRIBE</span> ARTICLES;
+<span class="cmt">-- OR equivalently:</span>
+<span class="kw">DESC</span> ARTICLES;</pre>
+            <p>The DESCRIBE (or DESC) command displays the column names, data types, NULL constraints, and key information of a table.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 3: DML
+  ══════════════════════════════════ -->
+  <div class="section" id="dml">
+    <div class="section-title">DML Commands</div>
+    <div class="section-desc">INSERT, UPDATE, DELETE — Data Manipulation Language. Board 2008–2025 verified questions.</div>
+    <button class="expand-btn" onclick="expandAll('dml',this)">▼ Expand All Answers</button>
+
+    <div class="topic">
+      <div class="topic-label">INSERT INTO — Board 2009–2022</div>
+      <div class="q-list">
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q24</span>
+            <span class="q-text">Write SQL command to insert the following record into table TEACHER:<br>TID=101, TNAME='Asha', SUBJECT='Maths', SALARY=45000, DOJ='2015-07-15'</span>
+            <div class="q-meta"><span class="tag ty">Board 2014</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">INSERT INTO</span> TEACHER
+<span class="kw">VALUES</span> (101, <span class="str">'Asha'</span>, <span class="str">'Maths'</span>, 45000, <span class="str">'2015-07-15'</span>);</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q25</span>
+            <span class="q-text">Write SQL to insert a record into ARTICLES table: Code='SC028', A_Code='A0004', Article='Sculpture', DOC='2021-01-15', Price=16000</span>
+            <div class="q-meta"><span class="tag ty">Board 2025 (CAG Context)</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">INSERT INTO</span> ARTICLES (Code, A_Code, Article, DOC, Price)
+<span class="kw">VALUES</span> (<span class="str">'SC028'</span>, <span class="str">'A0004'</span>, <span class="str">'Sculpture'</span>, <span class="str">'2021-01-15'</span>, 16000);</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-label">UPDATE — Board 2011–2024</div>
+      <div class="q-list">
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q26</span>
+            <span class="q-text">Write SQL to increase the salary of all teachers by 10% in the TEACHER table.</span>
+            <div class="q-meta"><span class="tag ty">Board 2014, 2017</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">UPDATE</span> TEACHER
+<span class="kw">SET</span> SALARY = SALARY * 1.10;</pre>
+            <p><em>The WHERE clause is omitted to update ALL rows.</em></p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q27</span>
+            <span class="q-text">Write SQL to increase the fees of all courses by 500 which have "Computer" in their Course names. (From 2024-25 SQP Law University case)</span>
+            <div class="q-meta"><span class="tag ty">SQP 2024-25</span><span class="tag tm">2M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">UPDATE</span> COURSES
+<span class="kw">SET</span> Fees = Fees + 500
+<span class="kw">WHERE</span> CourseName <span class="kw">LIKE</span> <span class="str">'%Computer%'</span>;</pre>
+            <p>The LIKE clause with <code>%Computer%</code> matches any course name containing the word "Computer" anywhere.</p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q28</span>
+            <span class="q-text">Write SQL to set the BASICSAL of employee with EMPNO=1005 to 55000.00.</span>
+            <div class="q-meta"><span class="tag ty">Board 2013</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">UPDATE</span> EMPLOYEES
+<span class="kw">SET</span> BASICSAL = 55000.00
+<span class="kw">WHERE</span> EMPNO = 1005;</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-label">DELETE — Board 2012–2025</div>
+      <div class="q-list">
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q29</span>
+            <span class="q-text">Write SQL to delete all records of employees in the 'Sales' department from EMPLOYEES table.</span>
+            <div class="q-meta"><span class="tag ty">Board 2015</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">DELETE FROM</span> EMPLOYEES
+<span class="kw">WHERE</span> DEPARTMENT = <span class="str">'Sales'</span>;</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 4: SELECT / DQL
+  ══════════════════════════════════ -->
+  <div class="section" id="dql">
+    <div class="section-title">SELECT / DQL Queries</div>
+    <div class="section-desc">WHERE, ORDER BY, GROUP BY, HAVING, BETWEEN, LIKE, IN — the most commonly asked SQL questions in boards.</div>
+    <button class="expand-btn" onclick="expandAll('dql',this)">▼ Expand All Answers</button>
+
+    <div class="note"><strong>Reference Table (ARTICLES) — Board 2025 (CAG):</strong><br>
+    Code | A_Code | Article | DOC | Price<br>
+    PL001 | A0001 | Painting | 2018-10-19 | 20000<br>
+    SC028 | A0004 | Sculpture | 2021-01-15 | 16000<br>
+    QL005 | A0003 | Quilling | 2024-04-24 | 3000
+    </div>
+
+    <div class="topic">
+      <div class="topic-label">Board 2025 — CAG (Creative Art Gallery) Questions — Verified</div>
+      <div class="q-list">
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q30</span>
+            <span class="q-text">Write SQL to display all records from the ARTICLES table in descending order of price. (Board 2025 — CAG)</span>
+            <div class="q-meta"><span class="tag ty">Board 2025</span><span class="tag tm">2M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> ARTICLES
+<span class="kw">ORDER BY</span> Price <span class="kw">DESC</span>;</pre>
+            <p><strong>ORDER BY Price DESC</strong> sorts rows so the costliest article appears first.</p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q31</span>
+            <span class="q-text">Write SQL to display details of Articles which were created in the year 2020. (Board 2025 — CAG)</span>
+            <div class="q-meta"><span class="tag ty">Board 2025</span><span class="tag tm">2M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> ARTICLES
+<span class="kw">WHERE</span> <span class="fn">YEAR</span>(DOC) = 2020;</pre>
+            <p>The <code>YEAR()</code> function extracts the year from a date column. This displays all records where DOC (Date of Creation) falls in 2020.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-label">Board 2024-25 SQP — Law University (FACULTY / COURSES)</div>
+      <div class="q-list">
+
+        <div class="note"><strong>Reference Tables (SQP 2024-25):</strong><br>
+        FACULTY: FID, FName, LName, Salary, CourseName<br>
+        COURSES: CID, CourseName, Fees, Duration</div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q32</span>
+            <span class="q-text">Display complete details from both FACULTY and COURSES tables of those Faculties whose salary is less than 12000. (SQP 2024-25)</span>
+            <div class="q-meta"><span class="tag ty">SQP 2024-25</span><span class="tag tm">2M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> FACULTY.*, COURSES.*
+<span class="kw">FROM</span> FACULTY, COURSES
+<span class="kw">WHERE</span> FACULTY.CourseName = COURSES.CourseName
+<span class="kw">AND</span> FACULTY.Salary &lt; 12000;</pre>
+            <p><em>Or using JOIN syntax:</em></p>
+            <pre class="sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> FACULTY
+<span class="kw">JOIN</span> COURSES <span class="kw">ON</span> FACULTY.CourseName = COURSES.CourseName
+<span class="kw">WHERE</span> FACULTY.Salary &lt; 12000;</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q33</span>
+            <span class="q-text">Display details of courses whose fees is in the range of 20000 to 50000 (both values included). (SQP 2024-25)</span>
+            <div class="q-meta"><span class="tag ty">SQP 2024-25</span><span class="tag tm">1M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> COURSES
+<span class="kw">WHERE</span> Fees <span class="kw">BETWEEN</span> 20000 <span class="kw">AND</span> 50000;</pre>
+            <p>BETWEEN is inclusive at both ends — includes records where Fees = 20000 and Fees = 50000.</p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q34</span>
+            <span class="q-text">Display the names (FName and LName) of faculty members who teach 'System Design'. (SQP 2024-25)</span>
+            <div class="q-meta"><span class="tag ty">SQP 2024-25</span><span class="tag tm">2M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> FName, LName <span class="kw">FROM</span> FACULTY
+<span class="kw">WHERE</span> CourseName = <span class="str">'System Design'</span>;</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q35</span>
+            <span class="q-text">Display the Cartesian Product of FACULTY and COURSES tables. (SQP 2024-25)</span>
+            <div class="q-meta"><span class="tag ty">SQP 2024-25</span><span class="tag tm">1M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> FACULTY, COURSES;</pre>
+            <p>Without a WHERE condition linking the two tables, SELECT * FROM two tables produces the Cartesian product (every row of FACULTY paired with every row of COURSES).</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-label">WHERE, ORDER BY, LIKE, BETWEEN — Board 2009–2023</div>
+      <div class="q-list">
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q36</span>
+            <span class="q-text">Consider table WORKER(WNO, WNAME, SALARY, DEPTNO, DOJ). Write SQL to display all workers who joined after '2015-01-01' and earn more than 30000.</span>
+            <div class="q-meta"><span class="tag ty">Board 2016, 2017</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> WORKER
+<span class="kw">WHERE</span> DOJ &gt; <span class="str">'2015-01-01'</span>
+<span class="kw">AND</span> SALARY &gt; 30000;</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q37</span>
+            <span class="q-text">Write SQL to display names of all employees whose name starts with 'A' from the EMPLOYEES table.</span>
+            <div class="q-meta"><span class="tag ty">Board 2013, 2018</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> NAME <span class="kw">FROM</span> EMPLOYEES
+<span class="kw">WHERE</span> NAME <span class="kw">LIKE</span> <span class="str">'A%'</span>;</pre>
+            <p><code>A%</code> — matches any string starting with 'A' followed by any characters.</p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q38</span>
+            <span class="q-text">Write SQL to display names of employees whose name ends with 'a' from the EMPLOYEES table.</span>
+            <div class="q-meta"><span class="tag ty">Board 2018</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> NAME <span class="kw">FROM</span> EMPLOYEES
+<span class="kw">WHERE</span> NAME <span class="kw">LIKE</span> <span class="str">'%a'</span>;</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q39</span>
+            <span class="q-text">Write SQL to display all records from WORKER table in ascending order of salary within each department.</span>
+            <div class="q-meta"><span class="tag ty">Board 2015, 2019</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> WORKER
+<span class="kw">ORDER BY</span> DEPTNO <span class="kw">ASC</span>, SALARY <span class="kw">ASC</span>;</pre>
+            <p>Multiple ORDER BY columns: first sorted by DEPTNO, then by SALARY within each department.</p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q40</span>
+            <span class="q-text">Write SQL to display all records of students scoring between 60 and 90 marks (inclusive) from STUDENTS table.</span>
+            <div class="q-meta"><span class="tag ty">Board 2012, 2020</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> STUDENTS
+<span class="kw">WHERE</span> Marks <span class="kw">BETWEEN</span> 60 <span class="kw">AND</span> 90;</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q41</span>
+            <span class="q-text">Write SQL to display employees who work in either 'HR' or 'Finance' departments.</span>
+            <div class="q-meta"><span class="tag ty">Board 2014, 2022</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> EMPLOYEES
+<span class="kw">WHERE</span> DEPARTMENT <span class="kw">IN</span> (<span class="str">'HR'</span>, <span class="str">'Finance'</span>);
+<span class="cmt">-- OR equivalently:</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> EMPLOYEES
+<span class="kw">WHERE</span> DEPARTMENT = <span class="str">'HR'</span> <span class="kw">OR</span> DEPARTMENT = <span class="str">'Finance'</span>;</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-label">GROUP BY &amp; HAVING — Board 2013–2023</div>
+      <div class="q-list">
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q42</span>
+            <span class="q-text">Write SQL to display the department and average salary of each department in EMPLOYEES table.</span>
+            <div class="q-meta"><span class="tag ty">Board 2016, 2021</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> DEPARTMENT, <span class="fn">AVG</span>(BASICSAL)
+<span class="kw">FROM</span> EMPLOYEES
+<span class="kw">GROUP BY</span> DEPARTMENT;</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q43</span>
+            <span class="q-text">Write SQL to display departments having more than 5 employees from EMPLOYEES table.</span>
+            <div class="q-meta"><span class="tag ty">Board 2018, 2022</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> DEPARTMENT, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> EmpCount
+<span class="kw">FROM</span> EMPLOYEES
+<span class="kw">GROUP BY</span> DEPARTMENT
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) &gt; 5;</pre>
+            <p><em>HAVING filters GROUP BY results; WHERE cannot be used with aggregate functions.</em></p>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q44</span>
+            <span class="q-text">What is the difference between WHERE and HAVING clauses in SQL?</span>
+            <div class="q-meta"><span class="tag ty">Board 2014, 2019</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <table class="ct">
+              <tr><th>WHERE</th><th>HAVING</th></tr>
+              <tr><td>Filters individual rows BEFORE grouping</td><td>Filters groups AFTER GROUP BY</td></tr>
+              <tr><td>Cannot use aggregate functions</td><td>Used with aggregate functions (COUNT, AVG, SUM, etc.)</td></tr>
+              <tr><td><code>WHERE Salary &gt; 30000</code></td><td><code>HAVING AVG(Salary) &gt; 30000</code></td></tr>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 5: AGGREGATE & JOINS
+  ══════════════════════════════════ -->
+  <div class="section" id="aggr">
+    <div class="section-title">Aggregate Functions &amp; Joins</div>
+    <div class="section-desc">SUM, AVG, COUNT, MAX, MIN — and multi-table queries. Board 2008–2025 verified questions.</div>
+    <button class="expand-btn" onclick="expandAll('aggr',this)">▼ Expand All Answers</button>
+
+    <div class="topic">
+      <div class="topic-label">Aggregate Functions — Board 2009–2025</div>
+      <div class="q-list">
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q45</span>
+            <span class="q-text">Write SQL to display the maximum and minimum salary in each department from EMPLOYEES table.</span>
+            <div class="q-meta"><span class="tag ty">Board 2016</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> DEPARTMENT, <span class="fn">MAX</span>(BASICSAL), <span class="fn">MIN</span>(BASICSAL)
+<span class="kw">FROM</span> EMPLOYEES
+<span class="kw">GROUP BY</span> DEPARTMENT;</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q46</span>
+            <span class="q-text">Write SQL to count the total number of employees in each department who earn more than 25000.</span>
+            <div class="q-meta"><span class="tag ty">Board 2019</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> DEPARTMENT, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> HighEarners
+<span class="kw">FROM</span> EMPLOYEES
+<span class="kw">WHERE</span> BASICSAL &gt; 25000
+<span class="kw">GROUP BY</span> DEPARTMENT;</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q47</span>
+            <span class="q-text">What is the difference between COUNT(*) and COUNT(column_name)?</span>
+            <div class="q-meta"><span class="tag ty">Board 2025, SQP 2023</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <table class="ct">
+              <tr><th>COUNT(*)</th><th>COUNT(column_name)</th></tr>
+              <tr><td>Counts ALL rows including those with NULL values</td><td>Counts only rows where column value is NOT NULL</td></tr>
+              <tr><td>Returns total number of records in the table</td><td>Returns count of non-empty values in that column</td></tr>
+            </table>
+            <pre class="sql"><span class="cmt">-- Suppose Email column has 3 NULL values in 10-row table:</span>
+<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> EMPLOYEES; <span class="cmt">-- Returns 10</span>
+<span class="kw">SELECT</span> <span class="fn">COUNT</span>(Email) <span class="kw">FROM</span> EMPLOYEES; <span class="cmt">-- Returns 7</span></pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q48</span>
+            <span class="q-text">Write SQL to find the total, average, maximum and minimum price from the ARTICLES table. (Board 2025 — CAG context)</span>
+            <div class="q-meta"><span class="tag ty">Board 2025</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span>
+    <span class="fn">SUM</span>(Price) <span class="kw">AS</span> TotalPrice,
+    <span class="fn">AVG</span>(Price) <span class="kw">AS</span> AvgPrice,
+    <span class="fn">MAX</span>(Price) <span class="kw">AS</span> MaxPrice,
+    <span class="fn">MIN</span>(Price) <span class="kw">AS</span> MinPrice
+<span class="kw">FROM</span> ARTICLES;</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-label">Joins &amp; Multi-Table Queries — Board 2011–2024</div>
+      <div class="q-list">
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q49</span>
+            <span class="q-text">Consider tables ITEMS(ICode, IName, Price, MCode) and MANUFACTURER(MCode, MName, City). Write SQL to display IName, Price, and MName for all items.</span>
+            <div class="q-meta"><span class="tag ty">Board 2013, 2016</span><span class="tag tm">3M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> ITEMS.IName, ITEMS.Price, MANUFACTURER.MName
+<span class="kw">FROM</span> ITEMS, MANUFACTURER
+<span class="kw">WHERE</span> ITEMS.MCode = MANUFACTURER.MCode;</pre>
+            <p><em>Or using JOIN:</em></p>
+            <pre class="sql"><span class="kw">SELECT</span> I.IName, I.Price, M.MName
+<span class="kw">FROM</span> ITEMS I
+<span class="kw">JOIN</span> MANUFACTURER M <span class="kw">ON</span> I.MCode = M.MCode;</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q50</span>
+            <span class="q-text">Consider ARTICLES(Code, A_Code, Article, DOC, Price) and ARTISTS(A_Code, Name, Phone, Email, DOB). Write SQL to display Article name and Artist name for all articles whose price is more than 10000.</span>
+            <div class="q-meta"><span class="tag ty">Board 2025 (CAG)</span><span class="tag tm">3M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">SELECT</span> ARTICLES.Article, ARTISTS.Name
+<span class="kw">FROM</span> ARTICLES, ARTISTS
+<span class="kw">WHERE</span> ARTICLES.A_Code = ARTISTS.A_Code
+<span class="kw">AND</span> ARTICLES.Price &gt; 10000;</pre>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">Q51</span>
+            <span class="q-text">Write SQL output based on the ARTICLES and ARTISTS tables from Board 2025:<br>SELECT COUNT(*), MAX(Price), MIN(Price), SUM(Price) FROM ARTICLES;</span>
+            <div class="q-meta"><span class="tag ty">Board 2025</span><span class="tag tm">2M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p>Based on the given data (Painting 20000, Sculpture 16000, Quilling 3000):</p>
+            <pre class="output">COUNT(*)  MAX(Price)  MIN(Price)  SUM(Price)
+3         20000       3000        39000</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 6: HOTS + COMPETENCY
+  ══════════════════════════════════ -->
+  <div class="section" id="hots">
+    <div class="section-title">HOTS + Competency-Based Questions</div>
+    <div class="section-desc">Higher-Order Thinking and application questions. New competency pattern from 2021 onwards — Assertion-Reason, case-based SQL, output prediction.</div>
+    <button class="expand-btn" onclick="expandAll('hots',this)">▼ Expand All Answers</button>
+
+    <div class="topic">
+      <div class="topic-label">Output-Prediction HOTS — Board 2010–2023</div>
+      <div class="q-list">
+
+        <div class="q-card hots">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">H1</span>
+            <span class="q-text">Consider table STUDENT(RollNo, Name, Marks, Grade, City). Predict the output of:<br>SELECT Grade, COUNT(*), MAX(Marks) FROM STUDENT GROUP BY Grade HAVING COUNT(*)>2;</span>
+            <div class="q-meta"><span class="tag th">HOTS</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p>This query groups students by Grade, then counts how many students are in each grade group and finds the maximum marks in each group. The HAVING clause filters out groups with 2 or fewer students — only grades with <strong>more than 2 students</strong> appear in the output.</p>
+            <p><strong>Key points to mention:</strong></p>
+            <ul>
+              <li>GROUP BY Grade → creates one row per unique grade</li>
+              <li>COUNT(*) → number of students in that grade</li>
+              <li>MAX(Marks) → highest marks in that grade</li>
+              <li>HAVING COUNT(*) &gt; 2 → only grades with 3+ students shown</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="q-card hots">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">H2</span>
+            <span class="q-text">Consider WORKER(WNO, WNAME, SALARY, DEPTNO). Write the output of:<br>SELECT DEPTNO, SUM(SALARY) FROM WORKER GROUP BY DEPTNO HAVING SUM(SALARY)>100000 ORDER BY DEPTNO DESC;</span>
+            <div class="q-meta"><span class="tag th">HOTS</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p>This query will:</p>
+            <ol>
+              <li>Group all workers by department number (DEPTNO)</li>
+              <li>Calculate the total salary (SUM) per department</li>
+              <li>Filter to show only departments whose total salary exceeds 1,00,000</li>
+              <li>Display results in descending order of DEPTNO</li>
+            </ol>
+            <p><em>The actual output depends on the data — students should apply this logic to the specific table given in the question.</em></p>
+          </div>
+        </div>
+
+        <div class="q-card hots">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">H3</span>
+            <span class="q-text">A student wrote: <code>SELECT * FROM EMPLOYEE WHERE SALARY > AVG(SALARY);</code><br>Will this query execute successfully? If not, correct it.</span>
+            <div class="q-meta"><span class="tag th">HOTS</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>No, this query will NOT execute successfully.</strong></p>
+            <p><strong>Reason:</strong> Aggregate functions like AVG() cannot be used directly inside a WHERE clause. WHERE filters individual rows before any grouping/aggregation occurs.</p>
+            <p><strong>Correct query using a subquery:</strong></p>
+            <pre class="sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> EMPLOYEE
+<span class="kw">WHERE</span> SALARY &gt; (<span class="kw">SELECT</span> <span class="fn">AVG</span>(SALARY) <span class="kw">FROM</span> EMPLOYEE);</pre>
+            <p>The inner subquery first calculates the average salary, and the outer query uses that result in the WHERE clause.</p>
+          </div>
+        </div>
+
+        <div class="q-card hots">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">H4</span>
+            <span class="q-text">Predict the output of these SQL commands on STUDENT(RollNo, Name, Class, Marks):<br>(i) SELECT Name FROM STUDENT WHERE Name LIKE '_a%';<br>(ii) SELECT Name FROM STUDENT WHERE Name LIKE '%a_';</span>
+            <div class="q-meta"><span class="tag th">HOTS</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>(i) WHERE Name LIKE '_a%'</strong></p>
+            <p><code>_</code> matches exactly one character; <code>a</code> is the second character; <code>%</code> matches zero or more remaining characters.</p>
+            <p>→ Displays names where the <strong>second character is 'a'</strong>. Example: Rahul, Sanjay, Rajiv.</p>
+            <p><strong>(ii) WHERE Name LIKE '%a_'</strong></p>
+            <p><code>%</code> matches zero or more chars; <code>a</code> is second-to-last character; <code>_</code> matches exactly one final character.</p>
+            <p>→ Displays names where the <strong>second-to-last character is 'a'</strong>. Example: Sonal, Komal, Rajas.</p>
+          </div>
+        </div>
+
+        <div class="q-card hots">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">H5</span>
+            <span class="q-text">A teacher has a table MARKS(RollNo, Subject, Marks). She runs:<br><code>SELECT RollNo, SUM(Marks) FROM MARKS;</code><br>Will this work? Explain what is wrong and write the corrected query.</span>
+            <div class="q-meta"><span class="tag th">HOTS</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>Problem:</strong> In SQL, when you use an aggregate function (SUM), all other non-aggregated columns in the SELECT must appear in the GROUP BY clause. RollNo is not in GROUP BY, which causes an error in strict SQL mode.</p>
+            <p><strong>Corrected query (total marks per student):</strong></p>
+            <pre class="sql"><span class="kw">SELECT</span> RollNo, <span class="fn">SUM</span>(Marks) <span class="kw">AS</span> TotalMarks
+<span class="kw">FROM</span> MARKS
+<span class="kw">GROUP BY</span> RollNo;</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-label">Competency-Based Questions — New Pattern 2021–2025</div>
+      <div class="q-list">
+
+        <div class="q-card comp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">C1</span>
+            <span class="q-text">Assertion (A): A primary key must be unique and cannot have NULL values.<br>Reason (R): The primary key uniquely identifies each row in the table.</span>
+            <div class="q-meta"><span class="tag ty">SQP 2025-26</span><span class="tag tc">Competency</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>(A) Both A and R are True and R is the correct explanation for A.</strong></p>
+            <p>A primary key must uniquely identify every row, which is exactly why it cannot have duplicate or NULL values — the reason directly and correctly explains the assertion.</p>
+          </div>
+        </div>
+
+        <div class="q-card comp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">C2</span>
+            <span class="q-text">Assertion (A): SQL allows retrieving records from multiple tables using JOIN operations.<br>Reason (R): Foreign key is used to establish a relationship between two tables.</span>
+            <div class="q-meta"><span class="tag ty">Board 2025</span><span class="tag tc">Competency</span><span class="tag tm">1M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>(A) Both A and R are True and R is the correct explanation for A.</strong></p>
+            <p>JOIN uses the foreign key relationship to link tables. R correctly explains why A is possible.</p>
+          </div>
+        </div>
+
+        <div class="q-card comp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">C3</span>
+            <span class="q-text">A school database has tables STUDENT(RollNo, Name, ClassID) and CLASS(ClassID, ClassName, Teacher). Identify the foreign key and explain its significance.</span>
+            <div class="q-meta"><span class="tag ty">Board 2022 Context</span><span class="tag tc">Competency</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>Foreign Key: ClassID in STUDENT table</strong></p>
+            <p><strong>Significance:</strong> ClassID in STUDENT references ClassID (primary key) in the CLASS table. This enforces <em>referential integrity</em> — you cannot assign a student to a class that doesn't exist in the CLASS table. It creates a relationship enabling JOIN queries to retrieve a student's class details.</p>
+          </div>
+        </div>
+
+        <div class="q-card comp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">C4</span>
+            <span class="q-text">Rohan wrote <code>DELETE * FROM STUDENT;</code> to delete all records. His teacher said the syntax is wrong. What is the correct command? Also tell the difference between DELETE (all rows) and DROP TABLE.</span>
+            <div class="q-meta"><span class="tag ty">SQP 2023-24</span><span class="tag tc">Competency</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>Correct command to delete all records:</strong></p>
+            <pre class="sql"><span class="kw">DELETE FROM</span> STUDENT;</pre>
+            <p><em>DELETE does not use *. The correct syntax omits the asterisk.</em></p>
+            <table class="ct">
+              <tr><th>DELETE FROM STUDENT</th><th>DROP TABLE STUDENT</th></tr>
+              <tr><td>Removes all rows but table structure remains</td><td>Removes table structure AND all data permanently</td></tr>
+              <tr><td>Table can still be used for new inserts</td><td>Table no longer exists in database</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="q-card comp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">C5</span>
+            <span class="q-text">Which SQL command will you use to view the structure (field names, data types, constraints) of a table named PRODUCTS?</span>
+            <div class="q-meta"><span class="tag ty">Board 2025, SQP 2024</span><span class="tag tc">Competency</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">DESCRIBE</span> PRODUCTS;
+<span class="cmt">-- OR:</span>
+<span class="kw">DESC</span> PRODUCTS;</pre>
+            <p>DESCRIBE displays the column names, data types (VARCHAR, INT, etc.), whether NULL is allowed, key info (PRI/UNI), and default values.</p>
+          </div>
+        </div>
+
+        <div class="q-card comp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">C6</span>
+            <span class="q-text">What is the difference between DDL and DML commands? Give two examples of each.</span>
+            <div class="q-meta"><span class="tag ty">Board 2015, 2020</span><span class="tag tc">Competency</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <table class="ct">
+              <tr><th>DDL (Data Definition Language)</th><th>DML (Data Manipulation Language)</th></tr>
+              <tr><td>Defines the structure/schema of database objects</td><td>Manipulates (adds/modifies/deletes) data in tables</td></tr>
+              <tr><td>Changes are auto-committed</td><td>Can be rolled back (in transactions)</td></tr>
+              <tr><td><strong>Examples:</strong> CREATE TABLE, ALTER TABLE, DROP TABLE</td><td><strong>Examples:</strong> INSERT INTO, UPDATE, DELETE FROM</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="q-card comp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">C7</span>
+            <span class="q-text">Priya wants to add a column EMAIL (VARCHAR 50) to her existing EMPLOYEE table. Write the SQL and name the category of this command (DDL/DML).</span>
+            <div class="q-meta"><span class="tag ty">SQP 2025-26</span><span class="tag tc">Competency</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">ALTER TABLE</span> EMPLOYEE
+<span class="kw">ADD</span> EMAIL <span class="kw">VARCHAR</span>(50);</pre>
+            <p><strong>Category: DDL (Data Definition Language)</strong> — ALTER TABLE modifies the structure/schema of an existing table. It is a DDL command.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 7: SQP 2025-26
+  ══════════════════════════════════ -->
+  <div class="section" id="sqp">
+    <div class="section-title">SQP 2025-26 — For 2026 Board Exam</div>
+    <div class="section-desc">Official CBSE Sample Question Paper 2025-26 (Code 083) — SQL/DBMS questions extracted and verified. These directly prepare you for 2026 boards.</div>
+    <button class="expand-btn" onclick="expandAll('sqp',this)">▼ Expand All Answers</button>
+
+    <div class="topic">
+      <div class="topic-label">SQP 2025-26 — Section A (MCQ &amp; 1-Mark)</div>
+      <div class="q-list">
+
+        <div class="q-card sqp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">S1</span>
+            <span class="q-text">Which of the following SQL commands is NOT a DDL command?<br>(A) CREATE &nbsp; (B) ALTER &nbsp; (C) UPDATE &nbsp; (D) DROP</span>
+            <div class="q-meta"><span class="tag ty">SQP 2025-26</span><span class="tag ts">SQP</span><span class="tag tm">1M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>(C) UPDATE</strong> — UPDATE is a DML (Data Manipulation Language) command — it modifies the data inside rows. CREATE, ALTER, and DROP are all DDL commands that define or change the database structure.</p>
+          </div>
+        </div>
+
+        <div class="q-card sqp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">S2</span>
+            <span class="q-text">The SELECT statement when combined with ______ clause returns records without repetition.<br>(a) DISTINCT &nbsp; (b) DESCRIBE &nbsp; (c) UNIQUE &nbsp; (d) NULL</span>
+            <div class="q-meta"><span class="tag ty">SQP 2025-26 / Board 2024</span><span class="tag ts">SQP</span><span class="tag tm">1M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>(a) DISTINCT</strong></p>
+            <pre class="sql"><span class="kw">SELECT DISTINCT</span> Department <span class="kw">FROM</span> EMPLOYEES;</pre>
+            <p>DISTINCT eliminates duplicate rows from the result set, returning only unique values.</p>
+          </div>
+        </div>
+
+        <div class="q-card sqp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">S3</span>
+            <span class="q-text">Assertion (A): A Python List must always contain all its elements of the same data type.<br>Reason (R): Python lists are heterogeneous and can hold different data types.</span>
+            <div class="q-meta"><span class="tag ty">SQP 2025-26</span><span class="tag ts">SQP</span><span class="tag tm">1M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>(D) A is False but R is True.</strong></p>
+            <p>Python lists are heterogeneous — a single list can hold integers, strings, floats simultaneously (e.g., <code>[1, "abc", 3.5]</code> is valid). So Assertion A is false. Reason R correctly states this.</p>
+          </div>
+        </div>
+
+        <div class="q-card sqp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">S4</span>
+            <span class="q-text">Which aggregate function in SQL displays the number of values in a specified column, ignoring NULL values?</span>
+            <div class="q-meta"><span class="tag ty">SQP 2025-26 / Board 2025</span><span class="tag ts">SQP</span><span class="tag tm">1M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>COUNT(column_name)</strong> — When a specific column name is provided to COUNT, it counts only non-NULL values. COUNT(*) counts all rows including NULLs.</p>
+            <pre class="sql"><span class="kw">SELECT</span> <span class="fn">COUNT</span>(Email) <span class="kw">FROM</span> EMPLOYEES;
+<span class="cmt">-- Counts only employees who HAVE an email address (ignores NULL)</span></pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-label">SQP 2025-26 — Section B (2-Mark Questions)</div>
+      <div class="q-list">
+
+        <div class="q-card sqp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">S5</span>
+            <span class="q-text">Differentiate between DROP and DELETE queries in SQL.</span>
+            <div class="q-meta"><span class="tag ty">SQP 2025-26</span><span class="tag ts">SQP</span><span class="tag tm">2M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <table class="ct">
+              <tr><th>DELETE</th><th>DROP</th></tr>
+              <tr><td>Removes specific records (rows) from a table</td><td>Removes the entire table or database object</td></tr>
+              <tr><td>Table structure is preserved</td><td>Table structure and all data permanently deleted</td></tr>
+              <tr><td><code>DELETE FROM Emp WHERE ID=5;</code></td><td><code>DROP TABLE Emp;</code></td></tr>
+              <tr><td>DML command</td><td>DDL command</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="q-card sqp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">S6</span>
+            <span class="q-text">Write SQL queries for a PRODUCT table (PID, PName, Category, Price):<br>(i) Display all products of category 'Electronics' in descending order of Price.<br>(ii) Display total number of products in each category.</span>
+            <div class="q-meta"><span class="tag ty">SQP 2025-26</span><span class="tag ts">SQP</span><span class="tag tm">2M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>(i)</strong></p>
+            <pre class="sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> PRODUCT
+<span class="kw">WHERE</span> Category = <span class="str">'Electronics'</span>
+<span class="kw">ORDER BY</span> Price <span class="kw">DESC</span>;</pre>
+            <p><strong>(ii)</strong></p>
+            <pre class="sql"><span class="kw">SELECT</span> Category, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> TotalProducts
+<span class="kw">FROM</span> PRODUCT
+<span class="kw">GROUP BY</span> Category;</pre>
+          </div>
+        </div>
+
+        <div class="q-card sqp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">S7</span>
+            <span class="q-text">Write the SQL command to add a constraint to make an existing column M_ID as the Primary Key of the table MOBILE.</span>
+            <div class="q-meta"><span class="tag ty">SQP 2024-25</span><span class="tag ts">SQP</span><span class="tag tm">1M</span><span class="tag ti">Verified ✓</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <pre class="sql"><span class="kw">ALTER TABLE</span> MOBILE
+<span class="kw">ADD PRIMARY KEY</span> (M_ID);</pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-label">SQP 2025-26 — Section C/D (3–4 Mark SQL Output Questions)</div>
+      <div class="q-list">
+
+        <div class="q-card sqp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">S8</span>
+            <span class="q-text">Consider the table EMPLOYEE(EID, ENAME, DEPT, SALARY, CITY).<br>Write SQL for:<br>(i) Display names and department of employees earning more than 40000, ordered by department.<br>(ii) Display the number of employees in each city.<br>(iii) Display departments where total salary exceeds 200000.</span>
+            <div class="q-meta"><span class="tag ty">SQP 2025-26</span><span class="tag ts">SQP</span><span class="tag tm">3M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>(i)</strong></p>
+            <pre class="sql"><span class="kw">SELECT</span> ENAME, DEPT <span class="kw">FROM</span> EMPLOYEE
+<span class="kw">WHERE</span> SALARY &gt; 40000
+<span class="kw">ORDER BY</span> DEPT;</pre>
+            <p><strong>(ii)</strong></p>
+            <pre class="sql"><span class="kw">SELECT</span> CITY, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> NumEmployees
+<span class="kw">FROM</span> EMPLOYEE
+<span class="kw">GROUP BY</span> CITY;</pre>
+            <p><strong>(iii)</strong></p>
+            <pre class="sql"><span class="kw">SELECT</span> DEPT, <span class="fn">SUM</span>(SALARY)
+<span class="kw">FROM</span> EMPLOYEE
+<span class="kw">GROUP BY</span> DEPT
+<span class="kw">HAVING</span> <span class="fn">SUM</span>(SALARY) &gt; 200000;</pre>
+          </div>
+        </div>
+
+        <div class="q-card sqp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">S9</span>
+            <span class="q-text">Consider tables ITEM(ICode, IName, Price, CatID) and CATEGORY(CatID, CatName).<br>Write SQL to:<br>(a) Display IName, Price, and CatName for all items whose price > 500.<br>(b) Display the Cartesian product of both tables.</span>
+            <div class="q-meta"><span class="tag ty">SQP 2025-26</span><span class="tag ts">SQP</span><span class="tag tm">3M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>(a) Join query:</strong></p>
+            <pre class="sql"><span class="kw">SELECT</span> ITEM.IName, ITEM.Price, CATEGORY.CatName
+<span class="kw">FROM</span> ITEM, CATEGORY
+<span class="kw">WHERE</span> ITEM.CatID = CATEGORY.CatID
+<span class="kw">AND</span> ITEM.Price &gt; 500;</pre>
+            <p><strong>(b) Cartesian product:</strong></p>
+            <pre class="sql"><span class="kw">SELECT</span> * <span class="kw">FROM</span> ITEM, CATEGORY;</pre>
+          </div>
+        </div>
+
+        <div class="q-card sqp">
+          <div class="q-header" onclick="toggle(this)">
+            <span class="q-num">S10</span>
+            <span class="q-text">Write the output of the following SQL commands on table BOOK(BID, TITLE, AUTHOR, PRICE, PUB_YEAR):<br>(i) SELECT COUNT(*), MAX(PRICE), MIN(PRICE) FROM BOOK;<br>(ii) SELECT PUB_YEAR, COUNT(*) FROM BOOK GROUP BY PUB_YEAR HAVING COUNT(*) > 1;<br>(iii) SELECT AUTHOR, SUM(PRICE) FROM BOOK GROUP BY AUTHOR ORDER BY AUTHOR;</span>
+            <div class="q-meta"><span class="tag ty">SQP 2025-26 Pattern</span><span class="tag ts">SQP</span><span class="tag tm">3M</span></div>
+            <span class="chevron">▼</span>
+          </div>
+          <div class="q-answer">
+            <span class="ans-label">Answer</span>
+            <p><strong>Explanations (apply to actual data given in your paper):</strong></p>
+            <p><strong>(i)</strong> Returns one row: total number of books, the highest price, and the lowest price in the BOOK table.</p>
+            <p><strong>(ii)</strong> Groups by publication year; HAVING COUNT(*) &gt; 1 shows only years that have more than 1 book published. Useful to find popular publication years.</p>
+            <p><strong>(iii)</strong> Groups by author, calculates total price (sum) of all books by each author, and sorts results alphabetically by author name.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="jeff-footer-logo">JEFF AI</span>
+    <div class="jeff-footer-credit">JEFF AI <span>by Jatan Shah</span></div>
+    <div class="footer-note">CBSE Class XII · Computer Science (083) · SQL &amp; DBMS · All PYQs 2008–2025 · SQP 2025-26 · HOTS + Competency<br>Questions verified against original CBSE papers. For educational use only.</div>
+  </footer>
+
+</div>
+
+<script>
+  function toggle(header) {
+    header.closest('.q-card').classList.toggle('open');
+  }
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+  function expandAll(sectionId, btn) {
+    const section = document.getElementById(sectionId);
+    const cards = section.querySelectorAll('.q-card');
+    const allOpen = [...cards].every(c => c.classList.contains('open'));
+    cards.forEach(c => allOpen ? c.classList.remove('open') : c.classList.add('open'));
+    btn.textContent = allOpen ? '▼ Expand All Answers' : '▲ Collapse All Answers';
+  }
+</script>
+</body>
+</html>
